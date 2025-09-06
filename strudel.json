@@ -1,11 +1,12 @@
 {
-  "life": "clean/life1.wav",
-  "life1": "clean/life1.wav",
-  "life2": "clean/life2.wav",
-  "life3": "clean/life3.wav",
-  "life4": "clean/life4.wav",
-  "life5": "clean/life5.wav",
-  "life6": "clean/life6.wav",
-  "life7": "clean/life7.wav",
-  "life8": "clean/life8.wav"
+  "_base": "https://raw.githubusercontent.com/tesspilot/samples/main/",
+  "life": ["clean/life1.wav"],
+  "life1": ["clean/life1.wav"],
+  "life2": ["clean/life2.wav"],
+  "life3": ["clean/life3.wav"],
+  "life4": ["clean/life4.wav"],
+  "life5": ["clean/life5.wav"],
+  "life6": ["clean/life6.wav"],
+  "life7": ["clean/life7.wav"],
+  "life8": ["clean/life8.wav"]
 }
