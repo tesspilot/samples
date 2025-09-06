@@ -2,32 +2,49 @@
 // @by tesspilot
 
 setcpm(160/4)
-// Robust inline loader for 'life' samples (avoids pack syntax issues on strudel.cc)
-;(async function loadLifeSamples(){
+// Hybrid loader: try pack (strudel.json) then fallback to direct URLs (no errors)
+;(async function ensureLifePack(){
+  const packSpec = 'github:tesspilot/samples';
   const base = 'https://raw.githubusercontent.com/tesspilot/samples/main/clean';
-  const lifeMap = Object.fromEntries(Array.from({length:8}, (_,i)=>[i+1, `${base}/life${i+1}.wav`]));
-  if (typeof addSamples === 'function') {
-    // Preferred: namespaced access via life:1 .. life:8
-    addSamples('life', lifeMap);
-    console.log('[life] samples loaded via addSamples namespace');
-  } else if (typeof samples === 'function') {
-    // Fallback: plain keys life1..life8
-    samples(Object.fromEntries(Object.entries(lifeMap).map(([k,v])=>['life'+k, v])));
-    console.log('[life] samples loaded via samples(object) fallback');
-  } else {
-    console.warn('[life] No sample registration API found');
+  const direct = Array.from({length:8}, (_,i)=>`life${i+1}`);
+  let loaded = false;
+  if (typeof samples === 'function') {
+    try {
+      const maybe = samples(packSpec);
+      if (maybe && maybe.then) await maybe;
+      // Heuristic: first key exists
+      if (typeof window !== 'undefined' && window.strudel && strudel.samples.life1) {
+        console.log('[life] pack loaded via strudel.json');
+        loaded = true;
+      }
+    } catch (e) {
+      console.warn('[life] pack load failed, falling back', e);
+    }
+  }
+  if (!loaded) {
+    // Fallback: register manually (life1..life8)
+    const mapObj = Object.fromEntries(direct.map((k,i)=>[k, `${base}/life${i+1}.wav`]));
+    if (typeof samples === 'function') {
+      samples(mapObj);
+      console.log('[life] manual fallback loaded');
+    } else if (typeof addSamples === 'function') {
+      // Provide numeric keys too if addSamples is around
+      addSamples('life', Object.fromEntries(direct.map((k,i)=>[i+1, `${base}/life${i+1}.wav`])))
+      console.log('[life] addSamples fallback loaded');
+    }
   }
 })();
 
-// External bass sample
-samples({'reese':'https://cdn.freesound.org/previews/236/236932_4212462-lq.mp3'})
+// External bass sample (kept separate so failure above doesn't block)
+typeof samples==='function' && samples({'reese':'https://cdn.freesound.org/previews/236/236932_4212462-lq.mp3'})
 
 let seq1 = "< 4@3 4@5 4@3 4@1 3@2 6@2 >*8" // straight ahead
 let seq2 = "< 0@3 <0 3>@5 2@3 2@3 4@2 >*8" // alt slices every2 bars
 
-let break1 = s("life:1/4").fit().scrub(seq1.div(8))
-let break2 = s("life:3/2").fit().scrub(seq2.div(8))
-let break3 = s("life:5/3").fit().scrub(seq1.div(8))
+// Using life1, life3, life5 keys (pack or fallback) with slice notation
+let break1 = s("life1:0/4").fit().scrub(seq1.div(8))
+let break2 = s("life3:0/2").fit().scrub(seq2.div(8))
+let break3 = s("life5:0/3").fit().scrub(seq1.div(8))
 
 let pads = chord("<E13sus _ A13sus _ C13sus _ G13sus _ >").voicing()
   .s('supersaw').attack(.5).release(.5)
