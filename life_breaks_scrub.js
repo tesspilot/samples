@@ -1,9 +1,3 @@
-// @title life breaks with scrub()
-// @by tesspilot
-
-setcpm(160/4)
-samples('github:tesspilot/samples')
-
 // @title life breaks with scrub() - Complex
 // @by tesspilot & Copilot
 
@@ -18,8 +12,8 @@ let textureSeq = "t(8,1,'<0 1 2 3 4 5 6 7>')".scramble().slow(8)
 // --- Layer 1: Rhythmic Foundation ---
 // Uses a variety of samples, with some velocity changes and euclidean rhythms
 const layer1 = s("life1*4 life2*4 life4*4 life6*4")
-    .segment(rhythmSeq.segment)
-    .gain(rhythmSeq.velocity.scale(0.8, 1.2))
+    .segment(rhythmSeq)
+    .gain(rhythmSeq.scale(0.8, 1.2))
     .every(4, s => s.rev())
     .pan(sine.slow(8).scale(-0.8, 0.8))
     .lpf(3000)
@@ -40,7 +34,7 @@ const layer2 = s("life3 life7")
 // Sparser, uses random samples, slowed down, with heavy effects
 const layer3 = s("life5 life8")
     .choose() // randomly picks one
-    .slow(textureSeq.slow)
+    .slow(textureSeq)
     .sometimes(s => s.rev())
     .sometimes(s => s.sustain(4)) // let it play out
     .gain(0.7)
