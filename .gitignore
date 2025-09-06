@@ -1,2 +1,30 @@
 .DS_Store
 *.DS_Store
+f
+
+# Node / JS common
+node_modules/
+.DS_Store
+
+# Python cache
+__pycache__/
+
+# Mac metadata
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Audio DAW temp
+*.tmp
+*.bak
+
+# If using clean/ as generated copies you can ignore originals (optional)
+# !slices/
+
+# If you later add processing scripts logs
+logs/
+
+# Uncomment if you DO NOT want large wav committed normally (use LFS instead)
+# *.wav
