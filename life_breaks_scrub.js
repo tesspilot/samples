@@ -2,16 +2,16 @@
 // @by tesspilot
 
 setcpm(160/4)
-samples('github:tesspilot/samples#life')
+samples('github:tesspilot/samples')
 samples({'reese':'https://cdn.freesound.org/previews/236/236932_4212462-lq.mp3'})
 
 let seq1 = "< 4@3 4@5 4@3 4@1 3@2 6@2 >*8" // straight ahead
 let seq2 = "< 0@3 <0 3>@5 2@3 2@3 4@2 >*8" // alt slices every2 bars
 
-// Using life: index addressing (works when #life pack exposes multi-file array)
-let break1 = s("life:1/4").fit().scrub(seq1.div(8))
-let break2 = s("life:3/2").fit().scrub(seq2.div(8))
-let break3 = s("life:5/3").fit().scrub(seq1.div(8))
+// Using individual sample keys (life1, life3, life5) as defined in strudel.json
+let break1 = s("life1").fit().scrub(seq1.div(8))
+let break2 = s("life3").fit().scrub(seq2.div(8))
+let break3 = s("life5").fit().scrub(seq1.div(8))
 
 let pads = chord("<E13sus _ A13sus _ C13sus _ G13sus _ >").voicing()
   .s('supersaw').attack(.5).release(.5)
