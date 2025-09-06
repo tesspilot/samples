@@ -1,6 +1,15 @@
 {
   "_base": "https://raw.githubusercontent.com/tesspilot/samples/main/",
-  "life": ["clean/life1.wav"],
+  "life": [
+    "clean/life1.wav",
+    "clean/life2.wav",
+    "clean/life3.wav",
+    "clean/life4.wav",
+    "clean/life5.wav",
+    "clean/life6.wav",
+    "clean/life7.wav",
+    "clean/life8.wav"
+  ],
   "life1": ["clean/life1.wav"],
   "life2": ["clean/life2.wav"],
   "life3": ["clean/life3.wav"],
