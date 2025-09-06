@@ -2,7 +2,24 @@
 // @by tesspilot
 
 setcpm(160/4)
-samples('github:tesspilot/samples#life')
+// Robust inline loader for 'life' samples (avoids pack syntax issues on strudel.cc)
+;(async function loadLifeSamples(){
+  const base = 'https://raw.githubusercontent.com/tesspilot/samples/main/clean';
+  const lifeMap = Object.fromEntries(Array.from({length:8}, (_,i)=>[i+1, `${base}/life${i+1}.wav`]));
+  if (typeof addSamples === 'function') {
+    // Preferred: namespaced access via life:1 .. life:8
+    addSamples('life', lifeMap);
+    console.log('[life] samples loaded via addSamples namespace');
+  } else if (typeof samples === 'function') {
+    // Fallback: plain keys life1..life8
+    samples(Object.fromEntries(Object.entries(lifeMap).map(([k,v])=>['life'+k, v])));
+    console.log('[life] samples loaded via samples(object) fallback');
+  } else {
+    console.warn('[life] No sample registration API found');
+  }
+})();
+
+// External bass sample
 samples({'reese':'https://cdn.freesound.org/previews/236/236932_4212462-lq.mp3'})
 
 let seq1 = "< 4@3 4@5 4@3 4@1 3@2 6@2 >*8" // straight ahead
